@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Microbus</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="{% static 'css/aboutus.css' %}">
+    <link rel="icon" href="{% static 'gif/favicon.ico' %}">
+    <script src="https://kit.fontawesome.com/85d0952e20.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital@1&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital@1&family=Sacramento&display=swap" rel="stylesheet">
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+</head>
+<body>
+    <div class="container">
+        <div class="blur-cover">
+            <div class="intro">
+                <div class="mid-intro-box"><div style="font-size: 120px; display: inline;">M</div>icrobus</div>
+            </div>
+        </div>
+        <div class="presi-card">
+            <div class="card-box">
+                <div style="height: 100%; width: 100%; position: relative;">
+                    <div class="photo">
+                        <img src="{% static 'gif/rahul.jpeg' %}" alt="" height="100%">
+                    </div>
+                    <div class="card-image">
+                        <img src="{% static 'gif/rahulmbback.png' %}" alt="" height="100%" style="box-shadow: -10px 10px 10px #a89272">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div style="display: flex; flex-direction: row; width: 80%; position: absolute; height: 100%; left: 50%; transform: translate(-50%,0)">
+            <div style="width: 50%; height: 100%; position: relative;">
+                <div style="color: rgb(107, 107, 107); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">&copy 2020 MICROBUS</div>
+            </div>
+            <div style="width: 50%; height: 100%; position: relative;">
+                <div style="font-size: medium; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); display: flex; flex-direction: row;">
+                    <a target="_blank" href="https://www.facebook.com/microbusnitkkr" style="text-decoration: none;"><i class="fab fa-facebook"></i></a> 
+                    <a target="_blank" href="https://www.instagram.com/microbus_nitkkr" style="text-decoration: none;"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

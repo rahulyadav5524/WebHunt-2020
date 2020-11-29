@@ -1,0 +1,74 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Web Hunt</title>
+    <link rel="icon" href="{% static 'gif/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <script src="https://kit.fontawesome.com/85d0952e20.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="blur-cover">
+        <div class="box">
+            <div class="inner-box">
+                <div class="header">Sign up to Web Hunt</div>
+                <form id="signUpform" action="/signup/" method="POST">
+                    {% csrf_token %}
+                    <div class="login-options">
+                        <div class="login-box">
+                            <div class="login-btn-google">
+                                <a href="{% provider_login_url 'google' %}?next=/lobby/0">  <i class="fab fa-google"></i>Sign up with Google</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider">
+                        <div class="line"></div>
+                        <div class="text">Or</div>
+                    </div>
+                    <div class="inputs">
+                        <div class="inputs-box">
+                            <input id="login-name" name="name" type="text" placeholder="Name" required>
+                        </div>
+                        <div class="inputs-box">
+                            <input id="login-email" name="email" type="email" placeholder="Email" required>
+                        </div>
+                        <div class="inputs-box">
+                            <input id="login-password" name="password" type="password" placeholder="Password" required><br>
+                        </div>
+                    </div>
+                    <div class="next-page-btn">
+                        <div class="next-btn" onclick="signup_form()">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </form>
+                <div class="signin-box">
+                    <div  style="margin-bottom: 10px;">ALREADY A MEMBER?</div>
+                    <a class="login-account" href="/signin/">SIGN IN</a>
+                </div>
+            </div>
+        </div>
+        <div style="color: white; position: absolute; bottom: 0; right: 0; padding: 10px;">
+            <img src="/static/gif/micrologo.png" style="height:60px; width: 60px;">
+        </div>
+    </div>
+    <script>
+        function signup_form(){
+            var signupform = document.getElementById('signUpform');
+            email = document.getElementById('login-email').value.replace(/\s/g, '');
+            name = document.getElementById('login-name').value.replace(/\s/g, '');
+            password = document.getElementById('login-password').value.replace(/\s/g, '');
+            if( email == "" || name.length < 4 || password ==""){
+                alert('Required Email or Name or Password is empty | Name length should be greater than 4');
+            }else{
+                signupform.submit();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Hunt | Microbus</title>
+    <link rel="icon" href="{% static 'gif/favicon.ico' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    
+</head>
+<body>
+    <div class="blur-cover">
+        <div style="width: 100%; height: 100%; position: relative;">
+            <div id="logo">
+                <svg id="website" width="765" height="108" viewBox="0 0 765 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M148.032 2.91199L121.68 104H91.872L75.744 37.472L59.04 104H29.232L3.60001 2.91199H29.952L44.496 76.496L62.496 2.91199H89.568L106.848 76.496L121.536 2.91199H148.032Z" stroke="white" stroke-width="4"/>
+                    <path d="M186.445 22.64V43.088H219.421V62.096H186.445V84.272H223.741V104H161.821V2.91199H223.741V22.64H186.445Z" stroke="white" stroke-width="4"/>
+                    <path d="M302.367 52.16C308.223 53.408 312.927 56.336 316.479 60.944C320.031 65.456 321.807 70.64 321.807 76.496C321.807 84.944 318.831 91.664 312.879 96.656C307.023 101.552 298.815 104 288.255 104H241.167V2.91199H286.671C296.943 2.91199 304.959 4.26399 310.719 9.96798C316.575 14.672 319.503 21.056 319.503 29.12C319.503 35.072 317.919 40.016 314.751 43.952C311.679 47.888 307.551 50.624 302.367 52.16ZM265.791 43.808H281.919C285.951 43.808 289.023 42.944 291.135 41.216C293.343 39.392 294.447 36.752 294.447 33.296C294.447 29.84 293.343 27.2 291.135 25.376C289.023 23.552 285.951 22.64 281.919 22.64H265.791V43.808ZM283.935 84.128C288.063 84.128 291.231 83.216 293.439 81.392C295.743 79.472 296.895 76.736 296.895 73.184C296.895 69.632 295.695 66.848 293.295 64.832C290.991 62.816 287.775 61.808 283.647 61.808H265.791V84.128H283.935Z" stroke="white" stroke-width="4"/>
+                    <path d="M457.037 2.91199V104H432.413V62.384H394.109V104H369.485V2.91199H394.109V42.512H432.413V2.91199H457.037Z" stroke="white" stroke-width="4"/>
+                    <path d="M500.445 2.91199V63.392C500.445 69.44 501.933 74.096 504.909 77.36C507.885 80.624 512.253 82.256 518.013 82.256C523.773 82.256 528.189 80.624 531.261 77.36C534.333 74.096 535.869 69.44 535.869 63.392V2.91199H560.493V63.248C560.493 72.272 558.573 79.904 554.733 86.144C550.893 92.384 545.709 97.088 539.181 100.256C532.749 103.424 525.549 105.008 517.581 105.008C509.613 105.008 502.461 103.472 496.125 100.4C489.885 97.232 484.941 92.528 481.293 86.288C477.645 79.952 475.821 72.272 475.821 63.248V2.91199H500.445Z" stroke="white" stroke-width="4"/>
+                    <path d="M669.656 104H645.032L603.848 41.648V104H579.224V2.91199H603.848L645.032 65.552V2.91199H669.656V104Z" stroke="white" stroke-width="4"/>
+                    <path d="M761.666 2.91199V22.64H734.882V104H710.258V22.64H683.474V2.91199H761.666Z" stroke="white" stroke-width="4"/>
+                </svg>
+                <svg id="phone" width="299" height="46" viewBox="0 0 299 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.1504 30.5527L14.9707 36.1777L16.1719 31.1094L24.6094 1.34375H29.3555L37.5879 31.1094L38.7598 36.2656L39.668 30.5234L46.2891 1.34375H51.9434L41.6016 44H36.4746L27.6855 12.916L27.0117 9.66406L26.3379 12.916L17.2266 44H12.0996L1.78711 1.34375H7.41211L14.1504 30.5527Z" stroke="white" stroke-width="2"/>
+                    <path d="M82.3242 24.2832H63.8379V39.4004H85.3125V44H58.2129V1.34375H85.0195V5.97266H63.8379V19.6836H82.3242V24.2832Z" stroke="white" stroke-width="2"/>
+                    <path d="M92.3145 44V1.34375H106.26C110.889 1.34375 114.365 2.30078 116.689 4.21484C119.033 6.12891 120.205 8.96094 120.205 12.7109C120.205 14.7031 119.639 16.4707 118.506 18.0137C117.373 19.5371 115.83 20.7188 113.877 21.5586C116.182 22.2031 117.998 23.4336 119.326 25.25C120.674 27.0469 121.348 29.1953 121.348 31.6953C121.348 35.5234 120.107 38.5312 117.627 40.7188C115.146 42.9062 111.641 44 107.109 44H92.3145ZM97.9395 24.0488V39.4004H107.227C109.844 39.4004 111.904 38.7266 113.408 37.3789C114.932 36.0117 115.693 34.1367 115.693 31.7539C115.693 26.6172 112.9 24.0488 107.314 24.0488H97.9395ZM97.9395 19.5371H106.436C108.896 19.5371 110.859 18.9219 112.324 17.6914C113.809 16.4609 114.551 14.791 114.551 12.6816C114.551 10.3379 113.867 8.63867 112.5 7.58398C111.133 6.50977 109.053 5.97266 106.26 5.97266H97.9395V19.5371Z" stroke="white" stroke-width="2"/>
+                    <path d="M177.363 44H171.709V24.2832H150.205V44H144.58V1.34375H150.205V19.6836H171.709V1.34375H177.363V44Z" stroke="white" stroke-width="2"/>
+                    <path d="M217.383 1.34375V30.3477C217.363 34.3711 216.094 37.6621 213.574 40.2207C211.074 42.7793 207.676 44.2148 203.379 44.5273L201.885 44.5859C197.217 44.5859 193.496 43.3262 190.723 40.8066C187.949 38.2871 186.543 34.8203 186.504 30.4062V1.34375H192.07V30.2305C192.07 33.3164 192.92 35.7188 194.619 37.4375C196.318 39.1367 198.74 39.9863 201.885 39.9863C205.068 39.9863 207.5 39.1367 209.18 37.4375C210.879 35.7383 211.729 33.3457 211.729 30.2598V1.34375H217.383Z" stroke="white" stroke-width="2"/>
+                    <path d="M259.043 44H253.389L231.914 11.1289V44H226.26V1.34375H231.914L253.447 34.3613V1.34375H259.043V44Z" stroke="white" stroke-width="2"/>
+                    <path d="M297.627 5.97266H283.916V44H278.32V5.97266H264.639V1.34375H297.627V5.97266Z" stroke="white" stroke-width="2"/>
+                </svg>
+                <div id="presented-by">Presented By MICROBUS</div>
+            </div>                              
+        </div>
+        <div class="signin-btn">
+            {% comment %} <a href="/aboutUs/" class="btn-config" style="text-decoration: none;">About Us</a> {% endcomment %}
+            <a href="/signin/" class="btn-config" style="text-decoration: none;">Sign In</a>
+        </div>
+        <div style=" position: absolute; top:0; left: 0; padding: 10px;">
+            <img class="sponsi-logo" src="/static/gif/sponsi.jpeg">
+        </div>
+        <div style=" position: absolute; bottom: 0; right: 0; padding: 10px;">
+            <img src="/static/gif/micrologo.png" style="height:60px; width: 60px;">
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+                                                                                                    
+</body>
+</html>

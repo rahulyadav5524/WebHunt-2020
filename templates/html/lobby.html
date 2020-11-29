@@ -1,0 +1,859 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Hunt</title>
+    <link rel="icon" href="{% static 'gif/favicon.ico' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/lobby.css' %}">
+    <script src="https://kit.fontawesome.com/85d0952e20.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="blur-cover">
+        {% for message in messages %}
+        <div style="z-index: 1;" class="alert alert-{{message.tags}} alert-dismissible fade show mb-0" role="alert">
+            <strong>Message:</strong> {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        <div class="main-container">
+            <div class="main-box">
+                <div class="menu-box">
+                    <div class="logo">
+                        <img height="100%" width="100%" src="{% static 'gif/micrologo.png' %}">
+                        <!-- <div style="width: 100%; text-align: center; color: white; font-size: 10px;">MicroBus</div> -->
+                    </div>
+                    <ul style="padding-top: 10px;">
+                        <li id="questions-menu" class="menu-selected" onclick="questions()">
+                            <div class="right-border"></div>
+                            <div class="menu">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                        </li>
+                        <li id="team-menu" class="menu-not-selected" onclick="team()">
+                            <div class="right-border"></div>
+                            <div class="menu">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </li>
+                        <li id="ranking-menu" class="menu-not-selected" onclick="ranking()">
+                            <div class="right-border"></div>
+                            <div class="menu">
+                                <i class="far fa-chart-bar"></i>
+                            </div>
+                        </li>
+                        <li id="result-menu" class="menu-not-selected" onclick="result()">
+                            <div class="right-border"></div>
+                            <div class="menu">
+                                <i class="fab fa-fort-awesome"></i>
+                            </div>
+                        </li>
+                        <li id="profile-menu" class="menu-not-selected" onclick="profile()">
+                            <div class="right-border"></div>
+                            <div class="menu">
+                                <i class="far fa-user-circle"></i>
+                            </div>
+                        </li>
+                        <li id="contact-menu" class="menu-not-selected" onclick="contact()">
+                            <div class="right-border"></div>
+                            <div class="menu">
+                                <i class="far fa-id-badge"></i>
+                            </div>
+                        </li>
+                        <li class="menu-not-selected">
+                            <div class="right-border"></div>
+                            <a href='/signout/' style="text-decoration: none; color:white">
+                                <div class="menu">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-text-box">
+                    <div class="info-box">
+                        <div class="user-details">
+                            <div id="user-details-username">
+                                {{user.username}}
+                            </div>
+                            <div id="user-details-teamname">
+                                {% if inteam %}
+                                Team - {{team.team_name}}
+                                {% else %}
+                                Team - Not joined
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div id="menu-selected-text">
+                            Questions
+                        </div>
+                    </div>
+                    <div class="questions menu-items">
+                        {% if contest_ended == True%}
+                            {% if result_out %}
+                                <div style="height: 100%; width: 100%; background-color: black;">
+                                    <div class="questions-web">
+                                        <img height="50%" src={% static 'gif/finished.gif' %}
+                                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+                                        <div style="font-size: 70px; color:white;position: absolute; top: 55%; left: 51%; transform: translate(-50%,-50%);">
+                                            <div>Contest is Finished</div>
+                                            <div style="font-size: 40px; text-align: center; color: rgb(190, 190, 190);">Results are out now</div>
+                                        </div>
+                                    </div>
+                                    <div class="questions-mobile">
+                                        <img height="50%" src={% static 'gif/finished.gif' %}
+                                            style="position: absolute; top: 40%; left: 50%; transform: translate(-50%,-50%);">
+                                        <div style="font-size: 50px; color:white;position: absolute; top: 45%; left: 51%; transform: translate(-50%,-50%); text-align: center;">
+                                            <div>Contest is Finished</div>
+                                            <div style="font-size: 30px; text-align: center; color: rgb(190, 190, 190);">Results are out now</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div style="height: 100%; width: 100%; background-color: black;">
+                                    <div class="questions-web">
+                                        <img height="50%" src={% static 'gif/finished.gif' %}
+                                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+                                        <div style="font-size: 70px; color:white;position: absolute; top: 55%; left: 51%; transform: translate(-50%,-50%);">
+                                            <div>Contest is Finished</div>
+                                            <div style="font-size: 40px; text-align: center; color: rgb(190, 190, 190);">Results will be out soon</div>
+                                        </div>
+                                    </div>
+                                    <div class="questions-mobile">
+                                        <img height="50%" src={% static 'gif/finished.gif' %}
+                                            style="position: absolute; top: 40%; left: 50%; transform: translate(-50%,-50%);">
+                                        <div style="font-size: 50px; color:white;position: absolute; top: 45%; left: 51%; transform: translate(-50%,-50%); text-align: center;">
+                                            <div>Contest is Finished</div>
+                                            <div style="font-size: 30px; text-align: center; color: rgb(190, 190, 190);">Results will be out soon</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% elif contest_running == False%}
+                        <div style="height: 100%; width: 100%; background-color: black; position: relative;">
+                            <img src={% static 'gif/dropping soon.gif' %}
+                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+                        </div>
+                        {% elif inteam == False%}
+                                <div style="height: 100%; width: 100%; background-color: #161616;">
+                                    <div class="questions-web">
+                                        <img src={% static 'gif/running1.gif' %}
+                                            style="position: absolute; top: 50%; left: 0; transform: translate(0%,-50%);">
+                                        <div
+                                            style="padding: 10px; font-size: 70px; color: white; position: absolute; right: 0; top: 50%; transform: translate(0,-50%);">
+                                            <div>Contest is Running</div>
+                                            {% comment %} <div style="text-align: center; color: rgb(136, 136, 136);">Join A Team</div> {% endcomment %}
+                                        </div>
+                                    </div>
+                                    <div class="questions-mobile">
+                                        <img src={% static 'gif/running1.gif' %} height="100%"
+                                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+                                        <div
+                                            style="padding: 10px; font-size: 40px; color: white; position: absolute; right: 0; top: 40%; transform: translate(0,-50%);">
+                                                <div>Contest is Running</div>
+                                                {% comment %} <div style="text-align: center; color: rgb(209, 209, 209);">Join A Team</div> {% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                        {% elif team_completed == True%}
+                        <div style="height: 100%; width: 100%; background-color: black;">
+                            <div class="questions-web">
+                                <img height="50%" src={% static 'gif/finished.gif' %}
+                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+                                <div style="text-align: center; font-size: 70px; color:white;position: absolute; top: 55%; left: 51%; transform: translate(-50%,-50%); width: 100%;">
+                                    <div>Thank you for the participation</div>
+                                    <div style="font-size: 40px; text-align: center; color: rgb(190, 190, 190);">Results will be out soon</div>
+                                </div>
+                            </div>
+                            <div class="questions-mobile">
+                                <img height="50%" src={% static 'gif/finished.gif' %}
+                                    style="position: absolute; top: 40%; left: 50%; transform: translate(-50%,-50%);">
+                                <div style="font-size: 50px; color:white;position: absolute; top: 45%; left: 51%; transform: translate(-50%,-50%); text-align: center;">
+                                    <div>Thank you for the participation</div>
+                                    <div style="font-size: 30px; text-align: center; color: rgb(190, 190, 190);">Results will be out soon</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="question-display-web">
+                                <div id="question-box" style="width: 70%; height: 100%; padding: 10px;">
+                                    <div style="height: 100%; width: 100%">
+                                        <img class="question-image" height="100%" style="max-width: fit-content;" src="">
+                                    </div>
+                                </div>
+                                <div id="answer-box" style="width: 30%; height: 100%; padding: 10px;">
+                                    <div style="height: 100%; width: 100%; position: relative;">
+                                        <div
+                                            style="width: 90%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+                                            <form action="/submit/" id="answerform">
+                                                <input class="team-answer" name="answer" type="text" placeholder="Answer">
+                                            </form>
+                                            <div class="next-btn-box">
+                                                <div class="next-btn" onclick="answer_form()">
+                                                    <i id="signUpbtn" class="fas fa-arrow-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="question-display-mobile">
+                                <div id="question-box" style="width: 100%; height: 60%; padding: 10px; padding-top: 45px;">
+                                    <div style="height: 100%; width: 100%;">
+                                        <img class="question-image" height="100%" width="100%" src="">
+                                    </div>
+                                </div>
+                                <div id="answer-box" style="width: 100%; height: 40%; padding: 10px;">
+                                    <div style="height: 100%; width: 100%; position: relative;">
+                                        <div style="width: 90%; position: absolute; top: 25%; left: 50%; transform: translate(-50%,-50%);">
+                                            <form action="/submit/" id="answerform">
+                                                <input class="team-answer" name="answer" type="text" placeholder="Answer" style="padding:10px">
+                                            </form>
+                                            <div class="next-btn-box">
+                                                <div class="next-btn" onclick="answer_form()">
+                                                    <i id="signUpbtn" class="fas fa-arrow-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="banner">
+                            Question Number : {{cur_ques_no}}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="team menu-items">
+                        {% if inteam == False %}
+                            {% if contest_ended %}
+                                <div class="questions-web"> 
+                                    <div style="text-align: center; padding: 10px; font-size: 70px; color: white; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);">
+                                        <div style="color:#203744 ;">Contest is ended</div>
+                                        {% comment %} <div style="text-align: center; color: rgb(136, 136, 136);"></div> {% endcomment %}
+                                    </div>
+                                </div>
+                                <div class="questions-mobile"> 
+                                    <div style="text-align: center; padding: 10px; font-size: 40px; color: white; position: absolute; left: 50%; top: 35%; transform: translate(-50%,-50%);">
+                                        <div>Contest is ended</div>
+                                        {% comment %} <div style="text-align: center; color: rgb(136, 136, 136);"></div> {% endcomment %}
+                                    </div>
+                                </div>
+                            {% elif contest_running == True and inteam == False%}
+                                <div class="questions-web"> 
+                                    <div style="text-align: center; padding: 10px; font-size: 70px; color: white; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);">
+                                        <div>Contest is running</div>
+                                        {% comment %} <div style="text-align: center; color: rgb(136, 136, 136);"></div> {% endcomment %}
+                                    </div>
+                                </div>
+                                <div class="questions-mobile"> 
+                                    <div style="text-align: center; padding: 10px; font-size: 40px; color: white; position: absolute; left: 50%; top: 35%; transform: translate(-50%,-50%);">
+                                        <div>Contest is running</div>
+                                        {% comment %} <div style="text-align: center; color: rgb(136, 136, 136);"></div> {% endcomment %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="team-not-selected">
+                                    <div class="container-box">
+                                        <div class="team-code">
+                                            {% comment %} <div class="inputs">
+                                                <input id="teamcode" name="teamcode" type="text" placeholder="Enter Team Code">
+                                            </div> {% endcomment %}
+                                            <div style="width: 100%;">
+                                                <div style="width: 90%; margin: auto; height: 100%; text-align: center; cursor: pointer;"
+                                                    onclick="team_code()">
+                                                    <div
+                                                        style="padding:20px; background-color: #4285f4; border-radius: 5px; color: white;">
+                                                        Enter Team Code
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="new-inputs">
+                                                <div class="team-section">
+                                                    <input id="teamcode" name="teamcode" type="text"
+                                                        placeholder="Enter Team Code">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="create-team">
+                                            <div style="width: 100%;">
+                                                <div style="width: 90%; margin: auto; height: 100%; text-align: center; cursor: pointer;"
+                                                    onclick="team_name()">
+                                                    <div
+                                                        style="padding:20px; background-color: #4285f4; border-radius: 5px; color: white;">
+                                                        Create Your Own Team</div>
+                                                </div>
+                                            </div>
+                                            <div class="new-inputs">
+                                                <form action="/create-team/" id="createteamform" class="team-section">
+                                                    <input id="teamname" name="teamname" type="text"
+                                                        placeholder="Enter Team Name">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="submit-btn">
+                                        <div class="next-btn-box" onclick="buttonclick()">
+                                            <div class="next-btn">
+                                                <i id="signInbtn" class="fas fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                        <div class="team-selected">
+                            <div class="new-container-box">
+                                <div class="already-join-team">You Have Already Joined A Team</div>
+                                <div class="team-member-box" style="padding: 30px;">
+                                    <div class="team-members" style="color: #4d6f83">Team Code: <div
+                                            style="display: inline; color: white;">{{team.team_code}}</div>
+                                    </div>
+                                </div>
+                                <div class="team-member-box" style="padding:0px">
+                                    {% for member in members  %}
+                                    <div class="team-members">
+                                        {{member.username}}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="ranking menu-items" style="display: none;width: 100%; position: relative;">
+                        <div class="rank-chart" style="position: absolute; height: 100px; width: 92%; padding: 20px;">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <div class="rank-table" id="rank-table-menu">
+                        </div>
+                        <div class="banner" style="padding:10px; font-size:12px">
+                            Current Ranking : {{cur_rank}}
+                        </div>
+                    </div>
+                    <div class="result menu-items"
+                        style="color:white;display: none;width: 100%;display: none; flex-direction: row;">
+                        {% if contest_running %}
+                        <div class="team-selected">
+                            <div class="new-container-box-display">
+                                <div class="result-text">Contest is running</div>
+                            </div>
+                        </div>
+                        {% elif result_out %}
+                        <div style="width: 30%; height: 100%; padding: 100px 50px 30px 50px;">
+                            <div
+                                style="width: 100%; height: 100%; background-color: #1b262c; box-shadow: 10px 10px 100px #222222; border-radius: 10px;">
+                                <img src={% static 'gif/second.gif' %} alt="" width="100%">
+                                <div
+                                    style="color:white; width: 100%; font-size: 30px; text-align: center; padding-top: 10px;">
+                                    Team - Wirewolves</div>
+                                <div style="width: 100%; padding: 20px;">
+                                    <div style="width: 100%; display: flex; justify-content: center;">
+                                        <div class="winning-team-members"
+                                            style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px; margin-right: 10px;">
+                                            Aman Goel</div>
+                                        <div class="winning-team-members"
+                                            style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                            Keshav Garg</div>
+                                    </div>
+                                    {% comment %} <div
+                                        style="width: 100%; display: flex; justify-content: space-evenly; padding-top: 10px;">
+                                        <div class="winning-team-members"
+                                            style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                            sdfsdfdsfd</div>
+                                        <div class="winning-team-members"
+                                            style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                            sfjsldk</div>
+                                    </div> {% endcomment %}
+
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 40%; height: 100%; padding: 50px 80px 80px 80px;">
+                            <div
+                                style="width: 90%; height: 100%;box-shadow: 10px 10px 100px #161616; border-radius: 10px;">
+                                <div
+                                    style="display:flex;flex-direction: column; width: 100%; height: 100%; background-color: #1b262c; box-shadow: 10px 10px 100px #222222;">
+                                    <img src={% static 'gif/first.gif' %} alt="" width="100%">
+                                    <div
+                                        style="color:white; width: 100%; font-size: 30px; text-align: center; padding-top: 10px;">
+                                        Team - Tapu_sena</div>
+                                    <div style="width: 100%; padding: 20px;">
+                                        <div style="width: 100%; display: flex; justify-content: center;">
+                                            <div class="winning-team-members"
+                                                style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px; margin-right: 10px;">
+                                                Rajat Anand Grover</div>
+                                            <div class="winning-team-members"
+                                                style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                                Tanuj Satija</div>
+                                        </div>
+                                        <div
+                                            style="width: 100%; display: flex; justify-content: space-evenly; padding-top: 10px;">
+                                            <div class="winning-team-members"
+                                                style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                                Vishnu Karwa</div>
+                                            {% comment %} <div class="winning-team-members"
+                                                style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                                sfjsldk</div> {% endcomment %}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 30%; height: 100%; padding: 150px 50px 10px 50px;">
+                            <div
+                                style="width: 100%; height: 100%;  box-shadow: 10px 10px 100px #242424; border-radius: 10px;">
+                                <div
+                                    style="width: 100%; height: 100%; background-color:#1b262c; box-shadow: 10px 10px 100px #222222;">
+                                    <img src={% static 'gif/third.gif' %} alt="" width="100%">
+                                    <div
+                                        style="color:white; width: 100%; font-size: 30px; text-align: center; padding-top: 10px;">
+                                        Team - Tuskers</div>
+                                    <div style="width: 100%; padding: 20px;">
+                                        <div style="width: 100%; display: flex; justify-content: center;">
+                                            <div class="winning-team-members"
+                                                style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px; margin-right: 10px;">
+                                                Apoorv Rastogi</div>
+                                            <div class="winning-team-members"
+                                                style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                                Saransh Sharma</div>
+                                        </div>
+                                        {% comment %} <div
+                                            style="width: 100%; display: flex; justify-content: space-evenly; padding-top: 10px;">
+                                            <div class="winning-team-members"
+                                                style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                                sdfsdfdsfd</div>
+                                            <div class="winning-team-members"
+                                                style="font-size: 15px; background-color: #1e2d35; width: fit-content; padding: 10px; border-radius: 10px;">
+                                                sfjsldk</div>
+                                        </div> {% endcomment %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% elif contest_ended %}
+                        <div class="team-selected">
+                            <div class="new-container-box-display">
+                                <div class="result-text">Results will be out soon</div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="team-selected">
+                            <div class="new-container-box-display">
+                                <div class="result-text">Contest will start soon</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <form class="profile menu-items" action="/profile/" method="POST" id="profile"
+                        style="display: none; height: calc(100% - 80px); width: 100%; position: relative; overflow-y: scroll;">
+                        {% csrf_token %}
+                        <div class="profile-outer-box">
+                            <div class="profile-inner-box">
+                                <div class="profile-box">
+                                    <div class="profile-menu-box">
+                                        <div class="profile-menu-text">Name</div>
+                                    </div>
+                                    <div class="profile-menu-input-box">
+                                        <div class="profile-menu-inner-box" style="padding-left: 20px;">
+                                            <div class="profile-menu-input-text">{{user.first_name}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-box">
+                                    <div class="profile-menu-box">
+                                        <div class="profile-menu-text">Username</div>
+                                    </div>
+                                    <div class="profile-menu-input-box">
+                                        <div class="profile-menu-inner-box">
+                                            <div class="profile-menu-box-options">
+                                                {% if profile %}
+                                                <div style="padding-left: 20px;" class="profile-menu-input-text">{{user.username}}</div>
+                                                {% else %}
+                                                <input class="profile-input-box" value="{{user.username}}"
+                                                    name="profile_username" type="text"
+                                                    placeholder="Create Your Username">
+                                                <div style="width: 10%; height: 100%;position: relative;">
+                                                    <i class="far fa-edit edit"></i>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-box">
+                                    <div class="profile-menu-box">
+                                        <div class="profile-menu-text">Roll Number</div>
+                                    </div>
+                                    <div class="profile-menu-input-box">
+                                        <div class="profile-menu-inner-box">
+                                            <div class="profile-menu-box-options">
+                                                {% if profile%}
+                                                <div style="padding-left: 20px;" class="profile-menu-input-text">{{profile.roll_no}}</div>
+                                                {% else %}
+                                                <input class="profile-input-box" id="roll_no" name="roll_no" type="text"
+                                                    placeholder="Enter Roll Number">
+                                                <div style="width: 10%; height: 100%;position: relative;">
+                                                    <i class="far fa-edit edit"></i>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-box">
+                                    <div class="profile-menu-box">
+                                        <div class="profile-menu-text">Email</div>
+                                    </div>
+                                    <div class="profile-menu-input-box">
+                                        <div class="profile-menu-inner-box" style="padding-left: 20px;">
+                                            <div class="profile-menu-input-text">{{user.email}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-box">
+                                    <div class="profile-menu-box">
+                                        <div class="profile-menu-text">Team Name</div>
+                                    </div>
+                                    <div class="profile-menu-input-box">
+                                        {% if inteam == True %}
+                                        <div class="profile-menu-inner-box" style="padding-left: 20px;">
+                                            <div class="profile-menu-input-text">{{team.team_name}}</div>
+                                        </div>
+                                        {% else %}
+                                        <div style="width: 100%;height: 100%;position: relative; padding-left: 20px;">
+                                            <div class="profile-menu-box-options">Please Join a Team</div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="profile-box">
+                                    <div class="profile-menu-box">
+                                        <div class="profile-menu-text">Team Code</div>
+                                    </div>
+                                    <div class="profile-menu-input-box">
+                                        {% if inteam == True %}
+                                        <div class="profile-menu-inner-box" style="padding-left: 20px;">
+                                            <div class="profile-menu-input-text">{{team.team_code}}</div>
+                                        </div>
+                                        {% else %}
+                                        <div style="width: 100%;height: 100%;position: relative; padding-left: 20px;">
+                                            <div class="profile-menu-box-options">Please Join a Team</div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="profile-box">
+                                    <div class="profile-menu-box">
+                                        <div class="profile-menu-text">Phone Number</div>
+                                    </div>
+                                    <div class="profile-menu-input-box">
+                                        <div class="profile-menu-inner-box">
+                                            <div class="profile-menu-box-options">
+                                                {% if profile %}
+                                                <div style="padding-left: 20px;" class="profile-menu-input-text">{{profile.phone_no}}</div>
+                                                {% else %}
+                                                <input class="profile-input-box" id="phoneno" name="phoneno" type="text"
+                                                    placeholder="Enter Phone Number">
+                                                <div style="width: 10%; height: 100%;position: relative;">
+                                                    <i class="far fa-edit edit"></i>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if profile == False %}
+                                <div style="width: 100%; padding-top: 10px; padding-bottom: 10px;">
+                                    <div class="profile-btn-height">
+                                        <div class="submit-btn"
+                                            style="left: 40%; position: absolute;transform: translate(-50%,0);">
+                                            <div class="next-btn-box" onclick="profileclick()">
+                                                <div class="next-btn">
+                                                    <i class="fas fa-arrow-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </form>
+                    <div class="contact menu-items"
+                        style="display: none; width: 100%;flex-direction: column;  overflow-y: scroll;">
+                        <div class="contact-web" style="height: 100%; width: 100%;">
+                            <div
+                                style="width: 100%; color: #bfd9e7; padding: 10px; font-size: 40px; text-align: center; padding-left: 70px; padding-right: 70px;">
+                                <div style="background-color: #1e2d35; ">
+                                    Devs
+                                </div>
+                            </div>
+                            <div class="contact-card-box-admin">
+                                <div class="image-card">
+                                {% comment %} <a class="image-card" target="_blank" href="https://rahul-yadav-00.github.io/Portfolio-Website/"> {% endcomment %}
+                                    <div style="width: 100%; height: 100%; position: relative;">
+                                        <div
+                                            style="position: absolute; left: 50%; transform: translate(-50%,0); width: 65%; height: 100%; background-color:  #1e2d35; border-radius: 10px; box-shadow: 10px 10px 100px  #1b262c; padding: 10px">
+                                            <div style="height: 75%; width: 100%; padding-bottom: 10px;">
+                                                <div class="rahul-profile-photo"
+                                                    style="height: 100%; width: 100%;border-radius: 10px;">
+                                                </div>
+                                            </div>
+                                            <div
+                                                style=" height: 25%; background-color:#1b262c;color: white; padding: 10px; border-radius: 10px;">
+                                                <div class="contact-name">Rahul Yadav</div>
+                                                <div class="contact-detail">+91 9319156169</div>
+                                                <div class="contact-detail">rahulyadav5524@gmail.com</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% comment %} </a> {% endcomment %}
+                                </div>
+                                <div class="image-card" style="position: relative;">
+                                    <div
+                                        style="position: absolute; left: 50%; transform: translate(-50%,0); width: 65%; height: 100%; background-color:  #1e2d35; border-radius: 10px; box-shadow: 10px 10px 100px  #1b262c; padding: 10px">
+                                        <div style="height: 75%; width: 100%; padding-bottom: 10px;">
+                                            <div class="harshit-profile-photo"
+                                                style="height: 100%; width: 100%;border-radius: 10px;">
+                                            </div>
+                                        </div>
+                                        <div
+                                            style=" height: 25%; background-color:#1b262c;color:white; padding: 10px; border-radius: 10px;">
+                                            <div class="contact-name">Harshit Pawar</div>
+                                            <div class="contact-detail">+91 7697621816</div>
+                                            <div class="contact-detail">pawarharshit358@gmail.com</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% comment %} <div
+                                style="width: 100%; color: #bfd9e7; padding: 10px; font-size: 40px; text-align: center; padding-left: 70px; padding-right: 70px;">
+                                <div style="background-color: #1e2d35; ">
+                                    Organizing Team
+                                </div>
+                            </div> {% endcomment %}
+                            {% comment %} <div class="contact-card-box">
+                                <a class="image-card" target="_blank" href="https://rahul-yadav-00.github.io/Portfolio-Website/">
+                                    <div style="width: 100%; height: 100%; position: relative;">
+                                        <div
+                                            style="position: absolute; left: 50%; transform: translate(-50%,0); width: 65%; height: 100%; background-color:  #1e2d35; border-radius: 10px; box-shadow: 10px 10px 100px  #1b262c; padding: 10px">
+                                            <div style="height: 80%; width: 100%; padding-bottom: 10px;">
+                                                <div class="varc-profile-photo"
+                                                    style="height: 100%; width: 100%;border-radius: 10px;">
+                                                </div>
+                                            </div>
+                                            <div
+                                                style=" height: 20%; background-color:#1b262c;color: white; padding: 10px; border-radius: 10px;">
+                                                <div class="contact-name">Varchasv Thakkar</div>
+                                                <div class="contact-detail">+91 9953303061</div>
+                                                <!-- <div class="contact-detail">rahulyadav5524@gmail.com</div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="image-card" style="position: relative;">
+                                    <div
+                                        style="position: absolute; left: 50%; transform: translate(-50%,0); width: 65%; height: 100%; background-color:  #1e2d35; border-radius: 10px; box-shadow: 10px 10px 100px  #1b262c; padding: 10px">
+                                        <div style="height: 80%; width: 100%; padding-bottom: 10px;">
+                                            <div class="anurag-profile-photo"
+                                                style="height: 100%; width: 100%;border-radius: 10px;">
+                                            </div>
+                                        </div>
+                                        <div
+                                            style=" height: 20%; background-color:#1b262c;color:white; padding: 10px; border-radius: 10px;">
+                                            <div class="contact-name">Anurag yadav</div>
+                                            <div class="contact-detail">+91 8090350969</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                            {% comment %} <div class="contact-card-box" style="padding-bottom: 20px;">
+                                <a class="image-card" target="_blank" href="https://rahul-yadav-00.github.io/Portfolio-Website/">
+                                    <div style="width: 100%; height: 100%; position: relative;">
+                                        <div
+                                            style="position: absolute; left: 50%; transform: translate(-50%,0); width: 65%; height: 100%; background-color:  #1e2d35; border-radius: 10px; box-shadow: 10px 10px 100px  #1b262c; padding: 10px">
+                                            <div style="height: 80%; width: 100%; padding-bottom: 10px;">
+                                                <div class="ayush-profile-photo"
+                                                    style="height: 100%; width: 100%;border-radius: 10px;">
+                                                </div>
+                                            </div>
+                                            <div
+                                                style=" height: 20%; background-color:#1b262c;color: white; padding: 10px; border-radius: 10px;">
+                                                <div class="contact-name">Ayush Bhardwaj</div>
+                                                <div class="contact-detail">+91 9873230539</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="image-card" style="position: relative;">
+                                    <div
+                                        style="position: absolute; left: 50%; transform: translate(-50%,0); width: 65%; height: 100%; background-color:  #1e2d35; border-radius: 10px; box-shadow: 10px 10px 100px  #1b262c; padding: 10px">
+                                        <div style="height: 80%; width: 100%; padding-bottom: 10px;">
+                                            <div class="sanjeev-profile-photo"
+                                                style="height: 100%; width: 100%;border-radius: 10px;">
+                                            </div>
+                                        </div>
+                                        <div
+                                            style=" height: 20%; background-color:#1b262c;color:white; padding: 10px; border-radius: 10px;">
+                                            <div class="contact-name">Sanjeev Yadav</div>
+                                            <div class="contact-detail">+91 8586953016</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                        </div>
+                        <div class="contact-mobile">
+                            <div style="width: 100%; text-align: center; color: #bfd9e7; padding: 10px 20px 10px 20px; font-size: 20px;">
+                                <div style="width: 80%; background-color: #1e2d35; text-align: center; padding: 5px; margin: auto;">
+                                    DEVS
+                                </div>
+                            </div>
+                            <div style="width: 100%; height: 300px; position: relative; margin-bottom: 10px; margin-top: 10px;">
+                                <div style="position: absolute; border-radius: 10px; background-color: #1e2d35; width: 70%; height: 100%; left: 50%; transform: translate(-50%,0); padding: 10px;">
+                                    <div style="height: 75%; width: 100%; padding-bottom: 10px">
+                                        <div class="rahul-profile-photo"
+                                            style="height: 100%; width: 100%;border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="height: 25%; background-color:#1b262c;color:white; padding: 5px; border-radius: 10px; padding-left: 10px;">
+                                        <div class="contact-name" style="font-size: 12px">Rahul Yadav</div>
+                                        <div class="contact-detail" style="font-size: 12px;">+91 9319156169</div>
+                                        <div class="contact-detail" style="font-size: 12px;">rahulyadav5524@gmail.com</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 100%; height: 300px; position: relative; margin-bottom: 10px; margin-top: 10px;">
+                                <div style="position: absolute; border-radius: 10px; background-color: #1e2d35; width: 70%; height: 100%; left: 50%; transform: translate(-50%,0); padding: 10px;">
+                                    <div style="height: 75%; width: 100%; padding-bottom: 10px">
+                                        <div class="harshit-profile-photo"
+                                            style="height: 100%; width: 100%;border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="height: 25%; background-color:#1b262c;color:white; padding: 5px; border-radius: 10px; padding-left: 10px;">
+                                        <div class="contact-name" style="font-size: 12px;">Harshit Pawar</div>
+                                            <div class="contact-detail" style="font-size: 12px;">+91 7697621816</div>
+                                            <div class="contact-detail" style="font-size: 12px;">pawarharshit358@gmail.com</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% comment %} <div style="width: 100%; text-align: center; color: #bfd9e7; padding: 10px 20px 10px 20px; font-size: 20px;">
+                                <div style="width: 80%; background-color: #1e2d35; text-align: center; padding: 5px; margin: auto;">
+                                    Organizing Team
+                                </div>
+                            </div> {% endcomment %}
+                            {% comment %} <div style="width: 100%; height: 280px; position: relative; margin-bottom: 10px; margin-top: 10px;">
+                                <div style="position: absolute; border-radius: 10px; background-color: #1e2d35; width: 70%; height: 100%; left: 50%; transform: translate(-50%,0); padding: 10px;">
+                                    <div style="height: 80%; width: 100%; padding-bottom: 10px">
+                                        <div class="anurag-profile-photo"
+                                            style="height: 100%; width: 100%;border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="height: 20%; background-color:#1b262c;color:white; padding: 5px; border-radius: 10px; padding-left: 10px;">
+                                        <div class="contact-name" style="font-size: 12px;">Anurag Yadav</div>
+                                        <div class="contact-detail" style="font-size: 12px;">+91 8090350969</div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                            {% comment %} <div style="width: 100%; height: 280px; position: relative; margin-bottom: 10px; margin-top: 10px;">
+                                <div style="position: absolute; border-radius: 10px; background-color: #1e2d35; width: 70%; height: 100%; left: 50%; transform: translate(-50%,0); padding: 10px;">
+                                    <div style="height: 80%; width: 100%; padding-bottom: 10px">
+                                        <div class="varc-profile-photo"
+                                            style="height: 100%; width: 100%;border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="height: 20%; background-color:#1b262c;color:white; padding: 5px; border-radius: 10px; padding-left: 10px;">
+                                        <div class="contact-name" style="font-size: 12px;">Varchasv Thakkar</div>
+                                        <div class="contact-detail" style="font-size: 12px;">+91 9953303061</div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                            {% comment %} <div style="width: 100%; height: 280px; position: relative; margin-bottom: 10px; margin-top: 10px;">
+                                <div style="position: absolute; border-radius: 10px; background-color: #1e2d35; width: 70%; height: 100%; left: 50%; transform: translate(-50%,0); padding: 10px;">
+                                    <div style="height: 80%; width: 100%; padding-bottom: 10px">
+                                        <div class="ayush-profile-photo"
+                                            style="height: 100%; width: 100%;border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="height: 20%; background-color:#1b262c;color:white; padding: 5px; border-radius: 10px; padding-left: 10px;">
+                                        <div class="contact-name" style="font-size: 12px;">Ayush Bhardwaj</div>
+                                        <div class="contact-detail" style="font-size: 12px;">+91 9873230539</div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                            {% comment %} <div style="width: 100%; height: 280px; position: relative; margin-bottom: 10px; margin-top: 10px;">
+                                <div style="position: absolute; border-radius: 10px; background-color: #1e2d35; width: 70%; height: 100%; left: 50%; transform: translate(-50%,0); padding: 10px;">
+                                    <div style="height: 80%; width: 100%; padding-bottom: 10px">
+                                        <div class="sanjeev-profile-photo"
+                                            style="height: 100%; width: 100%;border-radius: 10px;">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="height: 20%; background-color:#1b262c;color:white; padding: 5px; border-radius: 10px; padding-left: 10px;">
+                                        <div class="contact-name" style="font-size: 12px;">Sanjeev Yadav</div>
+                                        <div class="contact-detail" style="font-size: 12px;">+91 8586953016</div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
+<script src="{% static 'js/Chart.bundle.js' %}"></script>
+<script>
+    var teams_and_questions = "{{team_question}}".split(',');
+    var ques_name = "{{ques.ques_url}}"
+    var team_ranks = "{{team_ranks}}".split(',')
+    {% comment %} console.log(team_ranks) {% endcomment %}
+</script>
+<script src="{% static 'js/FirebaseConfig.js' %}"></script>
+<script src="{% static 'js/Chart.js' %}"></script>
+<script src="{% static 'js/Lobby.js' %}"></script>
+<script src="{% static 'js/Random.js' %}"></script>
+<script>
+    // var inteam = "{{inteam}}"
+    // var _profile = "{{profile}}"
+    // if (inteam == "False" && _profile == "False") {
+    //     alert('Disclaimer: Join as a team and Complete your Profile to participate in this contest ');
+    // }else if(inteam == "False"){
+    //     alert('Disclaimer: Join as a team to participate in this contest');
+    // }else if(_profile == "False"){
+    //     alert('Disclaimer: Complete your Profile to participate in this contest');
+    // }
+</script>
+</html>

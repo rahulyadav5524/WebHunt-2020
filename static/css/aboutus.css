@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Ubuntu',sans-serif;
+    font-family: 'Lobster Two', cursive;
+    font-family: 'Sacramento', cursive;
+    overflow-x: hidden;
+}
+.container{
+    background: url("/static/gif/team.png") no-repeat center center fixed;
+    background-size: contain;
+    background-color: #FEBB89;
+    height: 100%; 
+    width: 100vw; 
+    overflow-y: scroll;
+}
+.blur-cover{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.178);
+}
+.intro{
+    height: 100%; 
+    width: 100%; 
+    position: relative;
+}
+.mid-intro-box{
+    top: 50%; 
+    left: 50%; 
+    position: absolute; 
+    transform: translate(-50%,-50%); 
+    font-size: 100px;
+    padding: 0px 50px;
+    background-color: #220B07;
+    color:#FEBB89;
+}
+.presi-card{
+    height: 400px;
+    width: 100%;
+    background-color: #c6b59b;
+    position: relative;
+}
+.card-box{
+    position: absolute;
+    width: 60%;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%,0);
+    /* background-color: yellowgreen; */
+    display: flex;
+    flex-direction: row;
+    /* background: url('/static/gif/rahulmbback.png') no-repeat center center; */
+
+}
+.photo{
+    position: absolute;
+    right: 0;
+    width: 30%;
+    height: 80%;
+    top: 50%;
+    transform: translate(0,-50%);
+    /* background-color: white; */
+    overflow: hidden;
+}
+.card-image{
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    padding: 10px;
+    top: 50%;
+    left: 0;
+    transform: translate(0,-50%);
+    z-index: 5;
+    /* margin-left: 25px; */
+    overflow: hidden;
+    /* box-shadow: 10px 10px 10px #c6b59b; */
+} 
+footer{
+    background-color: white;
+    border-top: 2px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100vw;
+    height: 80px;
+}
+.fab{
+    font-size: 30px;
+    padding: 20px 40px 20px 40px;
+    color: rgb(85, 85, 85);
+    cursor: pointer;
+}
+.fab:hover{
+    /* font-size: 30px; */
+    /* padding: 40px; */
+    color: rgb(29, 29, 29);
+}

@@ -1,0 +1,88 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Web Hunt</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="{% static 'gif/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+    <script src="https://kit.fontawesome.com/85d0952e20.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="blur-cover">
+        {% for message in messages %}
+            <div style="z-index: 1;" class="alert alert-{{message.tags}} alert-dismissible fade show mb-0" role="alert">
+            <strong>Message:</strong> {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        {% endfor %}
+        <div class="box">
+            <div class="inner-box">
+                <div class="header">Sign in to Web Hunt</div>
+                <form id="signInform" action="/signin/" method="POST">
+                    {% csrf_token %}
+                    <div class="login-options">
+                        <div class="login-box">
+                            <div class="login-btn-google">
+                                <a href="{% provider_login_url 'google' %}?next=/lobby/0">  <i class="fab fa-google"></i>Sign in with Google</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider">
+                        <div class="line"></div>
+                        <div class="text">Or</div>
+                    </div>
+                    <div class="inputs">
+                        <div class="inputs-box">
+                            <input id="login-email" name="email" type="email" placeholder="Email" required>
+                        </div>
+                        <div class="inputs-box">
+                            <input id="login-password" name="password" type="password" placeholder="Password" required><br>
+                        </div>
+                    </div>
+                    <div class="next-page-btn">
+                        <div class="next-btn" onclick="signin_form()">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </form>
+                <div class="signup-box">
+                    <div style="margin-bottom: 10px;">CAN'T SIGN IN?</div>
+                    <a id="create-account" href="/signup/">CREATE ACCOUNT</a>
+                </div>
+            </div>
+        </div>
+        <div style="color: white; position: absolute; bottom: 0; right: 0; padding: 10px;">
+            <img src="/static/gif/micrologo.png" style="height:60px; width: 60px;">
+        </div>
+    </div>
+    <script>
+        function signin_form(){
+            var signform = document.getElementById('signInform');
+            email = document.getElementById('login-email').value.replace(/\s/g, '');
+            password = document.getElementById('login-password').value.replace(/\s/g, '');
+            if( email == "" || password == ""){
+                alert('Required Fields are empty');
+            }else{
+                signform.submit();
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+<script>
+    {% comment %} const mediaQuery = window.matchMedia('(max-width: 500px)')
+    if (mediaQuery.matches) {
+        alert('Disclaimer: Mobile Website might not work as expected for now! So it\'s advisable to use Desktop Website')
+    } {% endcomment %}
+</script>
+</html>
