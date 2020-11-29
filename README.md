@@ -1,5 +1,5 @@
 # WebHunt-2020
-This App helps college students to remove all the clutter about the **timetable, attendance, events and notification** etc. from there life. The app fetches Realtime data from the Firebase database and for Local storage I used SQLite.
+This Website was used to conduct **Realtime WebHunt Competition** of **NIT Kurukshetra** .
 ## Few Images
 ![Startup Page!](display/index.PNG "Website Startup Page")
 ![Sign In Page!](display/signin.PNG "Sign In Page")
